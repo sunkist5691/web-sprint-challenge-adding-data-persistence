@@ -42,12 +42,16 @@ exports.up = function(knex) {
          .notNullable()
          .references('id')
          .inTable('project')
+         .onDelete('CASCADE')
+         .onUpdate('CASCADE')
 
       tbl.integer('task_id')
          .unsigned()
          .notNullable()
          .references('id')
          .inTable('task')
+         .onDelete('CASCADE')
+         .onUpdate('CASCADE')
    })
 // PROJECT_RESOURCE
    .createTable('project_resource', tbl => {
@@ -58,12 +62,16 @@ exports.up = function(knex) {
          .notNullable()
          .references('id')
          .inTable('project')
+         .onDelete('CASCADE')
+         .onUpdate('CASCADE')
       
       tbl.integer('resource_id')
          .unsigned()
          .notNullable()
          .references('id')
          .inTable('resource')
+         .onDelete('CASCADE')
+         .onUpdate('CASCADE')
    })
 
 };
