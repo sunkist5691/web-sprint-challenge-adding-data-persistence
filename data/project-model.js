@@ -9,7 +9,10 @@ module.exports = {
    findResourceById,
    addProject,
    addTask,
-   addResource
+   addResource,
+   getResourceProject,
+   getTaskProject,
+   getProjectfromResource
 }
 
 function findProjectById(id){
@@ -78,4 +81,53 @@ function addResource(resource){
       .then(([id]) => {
          return findResourceById(id)
       })
+}
+
+function getResourceProject(id){
+   /*
+      select
+         project_id,
+         resource_name
+      from project as 'p'
+      join project_resource as 'pr'
+         on pr.project_id = p.id
+      join resource as 'r'
+         on pr.resource_id = r.id
+      where p.id = 1
+   */
+
+   return db('project as p')
+      .select('project_id', 'resource_name')
+      .join('project_resource as pr', 'pr.project_id', 'p.id')
+      .join('resource as r', 'pr.resource_id', 'r.id')
+      .where({ 'p.id': id})
+}
+
+function getTaskProject(id){
+   return db('project as p')
+      .select('project_id', 'task_description')
+      .join('project_task as pt', 'pt.project_id', 'p.id')
+      .join('task as t', 'pt.task_id', 't.id')
+      .where({ 'p.id': id})
+}
+
+function getProjectfromResource(id){
+   /* 
+      select
+         project_name,
+         resource_id
+      from project as p
+      join project_resource as pr
+         on pr.project_id = p.id
+      join resource as r
+         on pr.resource_id = r.id
+      where r.id = 1
+   */
+
+   return db('project as p')
+      .select('project_name', 'resource_id')
+      .join('project_resource as pr', 'pr.project_id', 'p.id')
+      .join('resource as r', 'pr.resource_id', 'r.id')
+      .where({ 'r.id': id })
+      
 }

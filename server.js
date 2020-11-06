@@ -80,6 +80,39 @@ server.get('/api/task', (req, res) => {
       })
 })
 
+server.get('/api/project/:id/resource', (req, res) => {
+   Project.getResourceProject(req.params.id)
+      .then(resources => {
+         res.status(201).json(resources)
+      })
+      .catch(error => {
+         res.status(500).json({
+            error: error.message
+         })
+      })
+})
 
+server.get('/api/project/:id/task', (req, res) => {
+   Project.getTaskProject(req.params.id)
+      .then(resources => {
+         res.status(201).json(resources)
+      })
+      .catch(error => {
+         res.status(500).json({
+            error: error.message
+         })
+      })
+})
 
+server.get('/api/resource/:id/project', (req, res) => {
+   Project.getProjectfromResource(req.params.id)
+      .then(projects => {
+         res.status(201).json(projects)
+      })
+      .catch(error => {
+         res.status(500).json({
+            error: error.message
+         })
+      })
+})
 module.exports = server
